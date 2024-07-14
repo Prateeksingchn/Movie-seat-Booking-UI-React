@@ -1,6 +1,7 @@
 import React from 'react';
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Link } from 'react-router-dom';
+import Footer from './Footer';
+import Header from './Header';
 
 const NowShowing = () => {
   const movies = [
@@ -29,28 +30,16 @@ const NowShowing = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <header className="bg-indigo-500 text-white py-6">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold text-center mb-4">Prateek's Cinema</h1>
-          <nav>
-            <ul className="flex justify-center space-x-6">
-              <li><a href="index.html" className="hover:text-indigo-200 transition-colors">Book Tickets</a></li>
-              <li><a href="#" className="font-semibold">Now Showing</a></li>
-              <li><a href="Coming-soon.html" className="hover:text-indigo-200 transition-colors">Coming Soon</a></li>
-              <li><a href="about-us.html" className="hover:text-indigo-200 transition-colors">About Us</a></li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+    <Header />
 
-      <main className="container mx-auto px-4 py-16">
+      <main className="container mx-auto px-4 py-16 flex flex-col">
         <h2 className="text-4xl font-bold text-indigo-500 text-center mb-12">Now Showing</h2>
         <div className="space-y-8">
           {movies.map((movie, index) => (
-            <Card key={index} className="overflow-hidden">
+            <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="md:flex">
                 <img src={movie.poster} alt={`${movie.title} Poster`} className="w-full md:w-64 object-cover" />
-                <CardContent className="flex-grow p-6">
+                <div className="flex-grow p-6">
                   <h3 className="text-2xl font-semibold text-gray-800 mb-2">{movie.title}</h3>
                   <p className="text-sm text-indigo-500 mb-2">{movie.info}</p>
                   <p className="text-sm mb-4">{movie.description}</p>
@@ -58,35 +47,20 @@ const NowShowing = () => {
                     <h4 className="text-lg font-semibold text-gray-800 mb-2">Today's Showtimes:</h4>
                     <div className="flex flex-wrap gap-2">
                       {movie.showtimes.map((time, timeIndex) => (
-                        <Button key={timeIndex} variant="outline" className="bg-indigo-500 text-white hover:bg-indigo-600">
+                        <button key={timeIndex} className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition-colors">
                           {time}
-                        </Button>
+                        </button>
                       ))}
                     </div>
                   </div>
-                </CardContent>
+                </div>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       </main>
 
-      <footer className="bg-indigo-500 text-white py-6 mt-16">
-        <div className="container mx-auto px-4 text-center">
-          <p>&copy; 2024 Prateek's Cinema. All rights reserved.</p>
-          <div className="mt-4 space-x-4">
-            <a href="#" aria-label="Facebook" className="text-2xl hover:text-indigo-200 transition-colors">
-              <i className="fab fa-facebook"></i>
-            </a>
-            <a href="#" aria-label="Twitter" className="text-2xl hover:text-indigo-200 transition-colors">
-              <i className="fab fa-twitter"></i>
-            </a>
-            <a href="#" aria-label="Instagram" className="text-2xl hover:text-indigo-200 transition-colors">
-              <i className="fab fa-instagram"></i>
-            </a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

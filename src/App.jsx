@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './components/home/Home';
+import NowShowing from './components/NowShowing';
+import ComingSoon from './components/ComingSoon';
+import AboutUs from './components/AboutUs';
 
 // Placeholder components for other pages
-const NowShowing = () => <h2>Now Showing</h2>;
-const ComingSoon = () => <h2>Coming Soon</h2>;
-const AboutUs = () => <h2>About Us</h2>;
 
 function App() {
   return (

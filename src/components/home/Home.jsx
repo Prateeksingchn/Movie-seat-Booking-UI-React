@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
+import Footer from '../Footer';
 
 const Home = () => {
-    const [selectedSeats, setSelectedSeats] = useState(0);
+    const [selectedSeats, setSelectedSeats] = useState([]);
     const [ticketPrice, setTicketPrice] = useState(12);
     const [showModal, setShowModal] = useState(false);
     const [bookingDetails, setBookingDetails] = useState({});
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
+    const [seats, setSeats] = useState([]);
+
+    useEffect(() => {
+        generateSeats();
+    }, [selectedDate, selectedTime]);
 
     const updateTotal = () => {
-        const ticketCost = selectedSeats * ticketPrice;
+        const ticketCost = selectedSeats.length * ticketPrice;
         const fee = Math.round(ticketCost * 0.1 * 100) / 100; // 10% convenience fee
         const total = ticketCost + fee;
         return { ticketCost, fee, total };
@@ -20,16 +26,17 @@ const Home = () => {
     const { ticketCost, fee, total } = updateTotal();
 
     const generateSeats = () => {
-        const seats = [];
+        const newSeats = [];
         for (let i = 0; i < 80; i++) {
             const isBooked = Math.random() < 0.3;
-            seats.push({
+            newSeats.push({
                 id: `seat${i}`,
                 label: `${String.fromCharCode(65 + Math.floor(i / 10))}${i % 10 + 1}`,
                 isBooked
             });
         }
-        return seats;
+        setSeats(newSeats);
+        setSelectedSeats([]);
     };
 
     const generateDates = () => {
@@ -50,8 +57,12 @@ const Home = () => {
 
     const handleSeatClick = (seatId) => {
         setSelectedSeats(prev => {
-            const seat = document.getElementById(seatId);
-            return seat.checked ? prev + 1 : prev - 1;
+            const index = prev.indexOf(seatId);
+            if (index > -1) {
+                return prev.filter(id => id !== seatId);
+            } else {
+                return [...prev, seatId];
+            }
         });
     };
 
@@ -60,13 +71,13 @@ const Home = () => {
     };
 
     const handleBooking = () => {
-        if (selectedSeats > 0 && selectedDate && selectedTime) {
+        if (selectedSeats.length > 0 && selectedDate && selectedTime) {
             const selectedMovie = document.getElementById('movieSelect').options[document.getElementById('movieSelect').selectedIndex].text;
             setBookingDetails({
                 movie: selectedMovie,
                 date: `${selectedDate.day}, ${selectedDate.date}`,
                 time: selectedTime,
-                seats: selectedSeats,
+                seats: selectedSeats.map(id => seats.find(seat => seat.id === id).label).join(', '),
                 total: total.toFixed(2)
             });
             setShowModal(true);
@@ -108,18 +119,19 @@ const Home = () => {
                             <div className="screen-text">Screen</div>
                         </div>
                         <div className="all-seats" id="seatContainer">
-                            {generateSeats().map(seat => (
+                            {seats.map(seat => (
                                 <React.Fragment key={seat.id}>
                                     <input
                                         type="checkbox"
                                         id={seat.id}
                                         style={{ display: 'none' }}
                                         disabled={seat.isBooked}
+                                        checked={selectedSeats.includes(seat.id)}
                                         onChange={() => handleSeatClick(seat.id)}
                                     />
                                     <label
                                         htmlFor={seat.id}
-                                        className={`seat${seat.isBooked ? ' booked' : ''}`}
+                                        className={`seat${seat.isBooked ? ' booked' : ''}${selectedSeats.includes(seat.id) ? ' selected' : ''}`}
                                     >
                                         {seat.label}
                                     </label>
@@ -144,7 +156,7 @@ const Home = () => {
                                         style={{ display: 'none' }}
                                         onChange={() => setSelectedDate(date)}
                                     />
-                                    <label htmlFor={date.id} className="date-item">
+                                    <label htmlFor={date.id} className={`date-item${selectedDate && selectedDate.id === date.id ? ' selected' : ''}`}>
                                         <div>{date.day}</div>
                                         <div>{date.date}</div>
                                     </label>
@@ -161,7 +173,7 @@ const Home = () => {
                                         style={{ display: 'none' }}
                                         onChange={() => setSelectedTime(time)}
                                     />
-                                    <label htmlFor={`time${index}`} className="time-item">
+                                    <label htmlFor={`time${index}`} className={`time-item${selectedTime === time ? ' selected' : ''}`}>
                                         {time}
                                     </label>
                                 </React.Fragment>
@@ -172,7 +184,7 @@ const Home = () => {
                 <aside className="price">
                     <h2>Booking Summary</h2>
                     <div className="price-details">
-                        <span>Tickets ({selectedSeats}):</span>
+                        <span>Tickets ({selectedSeats.length}):</span>
                         <span>${ticketCost.toFixed(2)}</span>
                     </div>
                     <div className="price-details">
@@ -187,10 +199,32 @@ const Home = () => {
                 </aside>
             </main>
             
+            {/* Its shows the book ticket data */}
             {showModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <span className="close" onClick={() => setShowModal(false)}>&times;</span>
+                <div className="modal" style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'rgba(0,0,0,0.5)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 1000
+                }}>
+                    <div className="modal-content" style={{
+                        backgroundColor: 'white',
+                        padding: '20px',
+                        borderRadius: '5px',
+                        maxWidth: '500px',
+                        width: '90%'
+                    }}>
+                        <span className="close" onClick={() => setShowModal(false)} style={{
+                            float: 'right',
+                            cursor: 'pointer',
+                            fontSize: '1.5rem'
+                        }}>&times;</span>
                         <h2>Booking Confirmation</h2>
                         <div>
                             <p><strong>Movie:</strong> {bookingDetails.movie}</p>
@@ -204,14 +238,7 @@ const Home = () => {
                 </div>
             )}
             
-            <footer>
-                <p>&copy; 2024 Prateek's Cinema. All rights reserved.</p>
-                <div className="social-icons">
-                    <a href="#" aria-label="Facebook"><i className="fab fa-facebook"></i></a>
-                    <a href="#" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
-                    <a href="#" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 };
