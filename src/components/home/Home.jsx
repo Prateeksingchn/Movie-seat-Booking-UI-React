@@ -76,86 +76,146 @@ const Home = () => {
     });
   };
 
-  const TopNav = () => (
-    <div className="flex justify-between items-center mb-12 bg-[#272B32] p-4 rounded-2xl">
-      {/* Date Section */}
-      <div className="flex items-center space-x-4">
-        <span className="text-blue-400 text-xl font-semibold">Date</span>
-        <button className="text-orange-500">&lt;</button>
-        <div className="flex space-x-1">
-          {dates.map((date) => (
-            <div
-              key={date.date}
-              className={`flex flex-col items-center cursor-pointer transition-all duration-300 px-5 py-2 rounded-[28px]
-                                ${
-                                  selectedDate === date.date
-                                    ? "bg-[#91B1F1] shadow-[0_0_8px_rgba(147,197,253,0.5)]"
-                                    : "bg-[#403f47]"
-                                }`}
-              onClick={() => setSelectedDate(date.date)}
-            >
-              <span className="text-[12px] text-gray-400">{date.month}</span>
-              <span className="text-base font-semibold text-black">
-                {date.date}
-              </span>
-              <span className="text-xs text-gray-400">{date.day}</span>
-            </div>
-          ))}
-        </div>
-        <button className="text-orange-500">&gt;</button>
-      </div>
+  // First, let's create a function to generate current week dates
+  const generateCurrentWeekDates = () => {
+    const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+    const today = new Date();
+    const dates = [];
 
-      {/* Right Options */}
-      <div className="flex space-x-10">
-        <div className="flex flex-col items-start border-r-2 border-zinc-600 pr-24 mr-16">
-          <span className="text-blue-400 text-[16px]">Time</span>
-          <select
-            className="bg-transparent text-gray-300 border-none outline-none appearance-none pr-8"
-            value={selectedTime}
-            onChange={(e) => setSelectedTime(e.target.value)}
-          >
-            {times.map((time) => (
-              <option key={time} value={time}>
-                {time}
-              </option>
+    // Get current day as starting point
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      dates.push({
+        day: days[date.getDay()],
+        date: String(date.getDate()).padStart(2, '0'),
+        month: date.toLocaleString('default', { month: 'short' })
+      });
+    }
+    return dates;
+  };
+
+  const TopNav = () => {
+    const currentDates = generateCurrentWeekDates();
+    
+    const handlePrevDate = () => {
+      // Logic to go to the previous week
+      const newDates = currentDates.map(date => {
+        const newDate = new Date();
+        newDate.setDate(new Date().getDate() - 7 + parseInt(date.date));
+        return {
+          day: date.day,
+          date: String(newDate.getDate()).padStart(2, '0'),
+          month: newDate.toLocaleString('default', { month: 'short' })
+        };
+      });
+      setCurrentDates(newDates);
+    };
+
+    const handleNextDate = () => {
+      // Logic to go to the next week
+      const newDates = currentDates.map(date => {
+        const newDate = new Date();
+        newDate.setDate(new Date().getDate() + 7 + parseInt(date.date));
+        return {
+          day: date.day,
+          date: String(newDate.getDate()).padStart(2, '0'),
+          month: newDate.toLocaleString('default', { month: 'short' })
+        };
+      });
+      setCurrentDates(newDates);
+    };
+
+    return (
+      <div className="flex justify-between items-center mb-12 bg-[#1a1d24]/80 px-8 py-4 rounded-none font-[Space_Grotesk] ">
+        {/* Left - Date Section */}
+        <div className="flex items-center space-x-6">
+          <span className="text-blue-300 text-sm font-semibold">Date</span>
+          <button onClick={handlePrevDate} className="text-orange-500 text-sm">&lt;</button>
+          <div className="flex space-x-4">
+            {currentDates.map((date) => (
+              <div
+                key={date.date}
+                onClick={() => setSelectedDate(date.date)}
+                className={`flex flex-col items-center cursor-pointer transition-all duration-300
+                  ${selectedDate === date.date 
+                    ? "bg-[#91B1F1] px-4 py-2 rounded-full" 
+                    : "hover:bg-[#2a2d32] px-4 py-2 rounded-full"
+                  }`}
+              >
+                <span className="text-xs text-gray-500">{date.month}</span>
+                <span className={`text-base font-semibold ${selectedDate === date.date ? "text-white" : "text-gray-400"}`}>
+                  {date.date}
+                </span>
+                <span className="text-[10px] text-gray-500">{date.day}</span>
+              </div>
             ))}
-          </select>
+          </div>
+          <button onClick={handleNextDate} className="text-orange-500 text-sm">&gt;</button>
         </div>
 
-        {/* Type and Location */}
-        <div className="flex space-x-20">
-          <div className="flex flex-col items-start">
-            <span className="text-blue-400 text-[16px] mr-3">Type</span>
-            <select
-              className="bg-transparent text-gray-300 border-none outline-none appearance-none pr-6"
-              value={selectedType}
-              onChange={(e) => handleTypeChange(e.target.value)}
-            >
-              {types.map((type) => (
-                <option key={type.id} value={type.id}>
-                  {type.id}
-                </option>
-              ))}
-            </select>
+        {/* Right - Selects Section with Borders */}
+        <div className="flex items-center space-x-14">
+          {/* Time Select */}
+          <div className="flex flex-col">
+            <span className="text-blue-300 text-xs">Time</span>
+            <div className="relative">
+              <select
+                value={selectedTime}
+                onChange={(e) => setSelectedTime(e.target.value)}
+                className="appearance-none bg-transparent text-gray-400 text-sm pr-5 cursor-pointer focus:outline-none"
+              >
+                {times.map((time) => (
+                  <option key={time} value={time} className="bg-[#1a1d24] text-gray-300 hover:bg-[#2a2d32]">{time}</option>
+                ))}
+              </select>
+              <span className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 text-[10px]">▼</span>
+            </div>
           </div>
-          <div className="flex flex-col items-start">
-            <span className="text-blue-400 text-[16px] mr-3">Address</span>
-            <select
-              className="bg-transparent text-gray-300 border-none outline-none appearance-none pr-6"
-              value={selectedMall}
-              onChange={(e) => setSelectedMall(e.target.value)}
-            >
-              {malls.map((mall) => (
-                <option key={mall} value={mall}>
-                  {mall}
-                </option>
-              ))}
-            </select>
+
+          {/* Divider */}
+          <div className="border-l border-gray-700 h-8"></div>
+
+          {/* Type Select */}
+          <div className="flex flex-col">
+            <span className="text-blue-300 text-xs">Type</span>
+            <div className="relative">
+              <select
+                value={selectedType}
+                onChange={(e) => handleTypeChange(e.target.value)}
+                className="appearance-none bg-transparent text-gray-400 text-sm pr-5 cursor-pointer focus:outline-none"
+              >
+                {types.map((type) => (
+                  <option key={type.id} value={type.id} className="bg-[#1a1d24] text-gray-300 hover:bg-[#2a2d32]">{type.id}</option>
+                ))}
+              </select>
+              <span className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 text-[10px]">▼</span>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="border-l border-gray-700 h-8"></div>
+
+          {/* Address Select */}
+          <div className="flex flex-col">
+            <span className="text-blue-300 text-xs">Address</span>
+            <div className="relative">
+              <select
+                value={selectedMall}
+                onChange={(e) => setSelectedMall(e.target.value)}
+                className="appearance-none bg-transparent text-gray-400 text-sm pr-5 cursor-pointer focus:outline-none"
+              >
+                {malls.map((mall) => (
+                  <option key={mall} value={mall} className="bg-[#1a1d24] text-gray-300 hover:bg-[#2a2d32]">{mall}</option>
+                ))}
+              </select>
+              <span className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 text-[10px]">▼</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const LeftSection = () => (
     <div className="w-[30%] mx-5">
