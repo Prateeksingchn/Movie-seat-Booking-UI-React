@@ -127,10 +127,10 @@ const Home = () => {
     };
 
     return (
-      <div className="flex justify-between items-center mb-12 bg-[#1a1d24]/80 px-8 py-4 rounded-none font-[Space_Grotesk] ">
+      <div className="flex justify-between items-center mb-12 bg-[#2A2A2F] rounded-2xl px-8 py-4 ">
         {/* Left - Date Section */}
         <div className="flex items-center space-x-6">
-          <span className="text-blue-300 text-sm font-semibold">Date</span>
+          <span className="text-blue-300 text-lg tracking-wider font-normal font-[roboto] ">Date</span>
           <button onClick={handlePrevDate} className="text-orange-500 text-sm">&lt;</button>
           <div className="flex space-x-4">
             {currentDates.map((date) => (
@@ -155,7 +155,7 @@ const Home = () => {
         </div>
 
         {/* Right - Selects Section with Borders */}
-        <div className="flex items-center space-x-14">
+        <div className="flex items-center space-x-14 font-[roboto] ">
           {/* Time Select */}
           <div className="flex flex-col">
             <span className="text-blue-300 text-xs">Time</span>
@@ -221,9 +221,9 @@ const Home = () => {
     <div className="w-[30%] mx-5">
 
       {/* Ticket info */}
-      <div className="px-7">
+      <div className="px-7 font-[roboto] ">
         {/* Header */}
-        <h2 className="text-[28px] font-light text-white mb-2">
+        <h2 className="text-[28px] font-light text-white mb-2 font-[roboto] ">
           Select Your Seats
         </h2>
         <div className="text-sm text-gray-500 mb-5 flex items-center">
@@ -266,35 +266,30 @@ const Home = () => {
 
       {/* Summary Card */}
       <div
-        className="bg-[#91B1F1]/20 p-7 rounded-2xl"
-        style={{
-          background:
-            "linear-gradient(145deg, rgba(147, 197, 253, 0.2) 0%, rgba(147, 197, 253, 0.1) 100%)",
-          backdropFilter: "blur(10px)",
-        }}
+        className="bg-[#93B3F3] p-7 rounded-2xl font-[roboto] "
       >
         <div className="space-y-4 mb-6">
           <div className="flex justify-between text-[15px]">
-            <span className="text-gray-400">Tickets/Double comfort</span>
-            <span className="text-white">{selectedSeats.length}</span>
+            <span className="text-gray-700">Tickets/Double comfort</span>
+            <span className="text-gray-700">{selectedSeats.length}</span>
           </div>
           <div className="flex justify-between text-[15px]">
-            <span className="text-gray-400">Type</span>
-            <span className="text-white">{selectedType}</span>
+            <span className="text-gray-700">Type</span>
+            <span className="text-gray-700">{selectedType}</span>
           </div>
-          <div className="flex justify-between text-[20px] font-medium">
-            <span className="text-white">TOTAL PRICE</span>
-            <span className="text-white">
+          <div className="flex justify-between text-[20px] font-medium border-t-2 border-zinc-400 pt-1">
+            <span className="text-black">TOTAL PRICE</span>
+            <span className="text-black">
               {ticketPrice * selectedSeats.length}$
             </span>
           </div>
         </div>
 
         {/* Buttons */}
-        <button className="w-full py-3 rounded-2xl bg-white/10 text-gray-300 mb-3 hover:bg-white/20 transition-all">
+        <button className="w-full py-3 rounded-full bg-white/10 text-gray-900 mb-3 hover:bg-white/20 transition-all border-2 border-gray-500">
           ADD PARKING
         </button>
-        <button className="w-full py-3 rounded-2xl bg-black text-white hover:bg-gray-900 transition-all">
+        <button className="w-full py-3 rounded-full bg-black text-white hover:bg-gray-900 transition-all">
           BUY
         </button>
       </div>
@@ -303,12 +298,7 @@ const Home = () => {
 
   const RightSection = () => (
     <div
-      className="w-[65%] rounded-3xl mx-auto p-4 ml-10"
-      style={{
-        background:
-          "radial-gradient(circle at center, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.2) 100%)",
-        boxShadow: "inset 0 0 100px rgba(0, 0, 0, 0.3)",
-      }}
+      className="w-[65%] rounded-3xl mx-auto p-4 ml-10 bg-gradient-to-r bg-[#27282E] "
     >
       {/* Screen Section - SVG curved line with enhanced glow */}
       <div className="relative mb-5">
@@ -488,10 +478,7 @@ const Home = () => {
 
   return (
     <div
-      className="min-h-screen bg-[#1a1d24] text-gray-300 p-8"
-      style={{
-        background: "radial-gradient(circle at top, #1a1d24 0%, #0f172a 100%)",
-      }}
+      className="min-h-screen bg-[#202124] text-gray-300 p-8"
     >
       <TopNav />
       <div className="flex">
