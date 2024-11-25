@@ -47,28 +47,29 @@ const Home = () => {
 
   const screenCurveStyles = {
     screen: {
-      width: '100%',
-      height: '60px',
-      position: 'relative',
-      '&::before': {
+      width: "100%",
+      height: "60px",
+      position: "relative",
+      "&::before": {
         content: '""',
-        position: 'absolute',
+        position: "absolute",
         top: 0,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: '100%',
-        height: '2px',
-        background: 'linear-gradient(90deg, rgba(59, 130, 246, 0) 0%, rgba(147, 197, 253, 0.5) 50%, rgba(59, 130, 246, 0) 100%)',
-        boxShadow: '0 0 15px rgba(147, 197, 253, 0.5)',
-        borderRadius: '100%'
-      }
-    }
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: "100%",
+        height: "2px",
+        background:
+          "linear-gradient(90deg, rgba(59, 130, 246, 0) 0%, rgba(147, 197, 253, 0.5) 50%, rgba(59, 130, 246, 0) 100%)",
+        boxShadow: "0 0 15px rgba(147, 197, 253, 0.5)",
+        borderRadius: "100%",
+      },
+    },
   };
 
   const handleSeatClick = (seatId) => {
-    setSelectedSeats(prev => {
+    setSelectedSeats((prev) => {
       if (prev.includes(seatId)) {
-        return prev.filter(seat => seat !== seatId);
+        return prev.filter((seat) => seat !== seatId);
       } else {
         return [...prev, seatId];
       }
@@ -86,9 +87,11 @@ const Home = () => {
             <div
               key={date.date}
               className={`flex flex-col items-center cursor-pointer transition-all duration-300 px-5 py-2 rounded-[28px]
-                                ${selectedDate === date.date 
-                                  ? "bg-[#91B1F1] shadow-[0_0_8px_rgba(147,197,253,0.5)]" 
-                                  : "bg-[#403f47]"}`}
+                                ${
+                                  selectedDate === date.date
+                                    ? "bg-[#91B1F1] shadow-[0_0_8px_rgba(147,197,253,0.5)]"
+                                    : "bg-[#403f47]"
+                                }`}
               onClick={() => setSelectedDate(date.date)}
             >
               <span className="text-[12px] text-gray-400">{date.month}</span>
@@ -118,7 +121,7 @@ const Home = () => {
             ))}
           </select>
         </div>
-        
+
         {/* Type and Location */}
         <div className="flex space-x-20">
           <div className="flex flex-col items-start">
@@ -155,63 +158,83 @@ const Home = () => {
   );
 
   const LeftSection = () => (
-    <div className="w-1/3">
-      <h2 className="text-2xl font-extralight mb-3">Select Your Seats</h2>
-      <div className="text-sm text-gray-500 mb-8 flex items-center">
-        <span>{selectedSeats.length} Seats</span>
-        {selectedSeats.map((seat, index) => (
-          <React.Fragment key={seat}>
-            <span className="mx-2">•</span>
-            <span>{seat}</span>
-          </React.Fragment>
-        ))}
-      </div>
+    <div className="w-[30%] mx-5">
 
-      <div className="mb-8">
-        <div className="flex items-center mb-4">
-          <h3 className="text-lg uppercase font-medium">Movie Tickets</h3>
-          <span className="ml-auto text-orange-500">🎟️</span>
+      {/* Ticket info */}
+      <div className="px-7">
+        {/* Header */}
+        <h2 className="text-[28px] font-light text-white mb-2">
+          Select Your Seats
+        </h2>
+        <div className="text-sm text-gray-500 mb-5 flex items-center">
+          <span>{selectedSeats.length} Seats</span>
+          {selectedSeats.map((seat, index) => (
+            <React.Fragment key={seat}>
+              <span className="mx-2">•</span>
+              <span>{seat}</span>
+            </React.Fragment>
+          ))}
         </div>
-        <div className="text-gray-500 space-y-2 text-sm">
-          <div className="flex justify-between">
-            <span>Date & Time</span>
-            <span>{selectedDate}/07/2023, {selectedTime}</span>
+
+        {/* Movie Tickets Section */}
+        <div className="mb-8">
+          <div className="flex items-center mb-2">
+            <h3 className="text-[17px] text-white">MOVIE TICKETS</h3>
+            <span className="ml-auto text-orange-500 text-2xl">🎟️</span>
           </div>
-          <div className="flex justify-between">
-            <span>Tickets (Double comfort)</span>
-            <span>{ticketPrice}$ × {selectedSeats.length} = {ticketPrice * selectedSeats.length}$</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Total</span>
-            <span>{ticketPrice * selectedSeats.length}$</span>
+          <div className="text-gray-500 space-y-3 text-[15px]">
+            <div className="flex justify-between">
+              <span>Date & Time</span>
+              <span>
+                {selectedDate}/07/2023, {selectedTime}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span>Tickets (Double comfort)</span>
+              <span>
+                {ticketPrice}$ × {selectedSeats.length} ={" "}
+                {ticketPrice * selectedSeats.length}$
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span>Total</span>
+              <span>{ticketPrice * selectedSeats.length}$</span>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Summary Card */}
-      <div className="bg-[#91B1F1]/20 p-6 rounded-2xl backdrop-blur-sm"
-           style={{
-             background: 'linear-gradient(145deg, rgba(147, 197, 253, 0.2) 0%, rgba(147, 197, 253, 0.1) 100%)',
-             boxShadow: '0 4px 24px -1px rgba(147, 197, 253, 0.1)'
-           }}>
+      <div
+        className="bg-[#91B1F1]/20 p-7 rounded-2xl"
+        style={{
+          background:
+            "linear-gradient(145deg, rgba(147, 197, 253, 0.2) 0%, rgba(147, 197, 253, 0.1) 100%)",
+          backdropFilter: "blur(10px)",
+        }}
+      >
         <div className="space-y-4 mb-6">
-          <div className="flex justify-between">
+          <div className="flex justify-between text-[15px]">
             <span className="text-gray-400">Tickets/Double comfort</span>
-            <span>{selectedSeats.length}</span>
+            <span className="text-white">{selectedSeats.length}</span>
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between text-[15px]">
             <span className="text-gray-400">Type</span>
-            <span>{selectedType}</span>
+            <span className="text-white">{selectedType}</span>
           </div>
-          <div className="flex justify-between text-lg font-medium">
-            <span>TOTAL PRICE</span>
-            <span>{ticketPrice * selectedSeats.length}$</span>
+          <div className="flex justify-between text-[20px] font-medium">
+            <span className="text-white">TOTAL PRICE</span>
+            <span className="text-white">
+              {ticketPrice * selectedSeats.length}$
+            </span>
           </div>
         </div>
-        <button className="w-full py-3 rounded-xl bg-gray-800/50 text-gray-400 mb-3 hover:bg-gray-800/70 transition-all">
+
+        {/* Buttons */}
+        <button className="w-full py-3 rounded-2xl bg-white/10 text-gray-300 mb-3 hover:bg-white/20 transition-all">
           ADD PARKING
         </button>
-        <button className="w-full py-3 rounded-xl bg-black text-white hover:bg-gray-900 transition-all">
+        <button className="w-full py-3 rounded-2xl bg-black text-white hover:bg-gray-900 transition-all">
           BUY
         </button>
       </div>
@@ -219,99 +242,146 @@ const Home = () => {
   );
 
   const RightSection = () => (
-    <div className="w-2/3 pl-12">
-      {/* Screen Section */}
-      <div className="relative mb-16">
-        <div className="w-full h-[60px] relative overflow-hidden mb-2">
-          <div 
-            className="absolute w-full h-[2px] left-1/2 top-[30px] -translate-x-1/2"
-            style={{
-              background: 'linear-gradient(90deg, transparent 0%, rgba(147, 197, 253, 0.5) 50%, transparent 100%)',
-              boxShadow: '0 0 20px rgba(147, 197, 253, 0.5)',
-              borderRadius: '100%',
-              transform: 'translateX(-50%) rotate(-4deg)',
-            }}
-          />
+    <div
+      className="w-[65%] rounded-3xl mx-auto p-4 ml-10"
+      style={{
+        background:
+          "radial-gradient(circle at center, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.2) 100%)",
+        boxShadow: "inset 0 0 100px rgba(0, 0, 0, 0.3)",
+      }}
+    >
+      {/* Screen Section - SVG curved line with enhanced glow */}
+      <div className="relative mb-5">
+        <div className="w-full mx-auto h-[40px] relative overflow-hidden mb-2">
+          <svg
+            width="100%"
+            height="80"
+            viewBox="0 0 800 80"
+            preserveAspectRatio="none"
+            className="absolute top-0 left-0"
+          >
+            {/* Outer glow effect */}
+            <path
+              d="M 0,60 Q 400,-10 800,60"
+              stroke="rgba(147, 197, 253, 0.2)"
+              strokeWidth="4"
+              fill="none"
+              className="filter drop-shadow-[0_0_20px_rgba(147,197,253,0.4)]"
+            />
+
+            {/* Main bright line */}
+            <path
+              d="M 0,60 Q 400,-10 800,60"
+              stroke="rgba(147, 197, 253, 0.5)"
+              strokeWidth="2"
+              fill="none"
+              className="filter drop-shadow-[0_0_8px_rgba(147,197,253,0.6)]"
+            />
+
+            {/* Inner subtle line */}
+            <path
+              d="M 0,60 Q 400,-10 800,60"
+              stroke="rgba(147, 197, 253, 0.3)"
+              strokeWidth="1"
+              fill="none"
+            />
+          </svg>
         </div>
-        <div className="text-center">
-          <span className="text-gray-400 tracking-[0.5em] text-sm">S C R E E N</span>
+        <div className="text-center mt-8">
+          <span className="text-gray-500 tracking-[0.5em] text-sm">
+            S C R E E N
+          </span>
         </div>
       </div>
 
-      {/* Seats Grid */}
-      <div className="relative px-8 py-4 rounded-3xl" 
-           style={{
-             background: 'radial-gradient(circle at center, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.3) 100%)',
-             boxShadow: 'inset 0 0 100px rgba(0, 0, 0, 0.5)'
-           }}>
-        <div className="grid gap-y-4">
+      {/* Seats Grid - Updated with 5-11-5 layout */}
+      <div className="px-8">
+        <div className="grid gap-y-3">
           {rows.map((row) => (
-            <div
-              key={row}
-              className="grid grid-cols-[30px_repeat(15,minmax(0,1fr))_30px] gap-x-2 items-center"
-            >
-              <div className="text-center text-gray-500 text-sm">{row}</div>
-              {[...Array(seatsPerRow)].map((_, index) => {
-                const seatId = `${row}${index + 1}`;
-                const isDisabled = [
-                  'G7', 'G8', 'H7', 'H8', // Disability seats in center
-                  'A8', 'C12', 'F12' // Random disability seats
-                ].includes(seatId);
-                
-                return (
-                  <div
-                    key={seatId}
-                    className={`
-                      w-6 h-6 rounded-sm cursor-pointer transition-all duration-300
-                      ${isDisabled ? 'bg-gray-800/30 cursor-not-allowed' : ''}
-                      ${selectedSeats.includes(seatId) 
-                        ? "bg-[#91B1F1] shadow-[0_0_8px_rgba(147,197,253,0.5)]" 
-                        : "bg-gray-800/30 hover:bg-gray-700/40"}
-                    `}
-                    onClick={() => !isDisabled && handleSeatClick(seatId)}
-                  >
-                    {isDisabled && (
-                      <span className="flex items-center justify-center text-xs text-gray-400">♿</span>
-                    )}
-                  </div>
-                );
-              })}
-              <div className="text-center text-gray-500 text-sm">{row}</div>
+            <div key={row} className="flex justify-center items-center">
+              {/* Row label left */}
+              <div className="text-center text-blue-400/60 text-sm font-medium w-6">
+                {row}
+              </div>
+
+              {/* Left section (5 seats) */}
+              <div className="flex gap-2 mr-4">
+                {[...Array(5)].map((_, index) => {
+                  const seatId = `${row}${index + 1}`;
+                  return renderSeat(
+                    seatId,
+                    isDisabled(seatId),
+                    handleSeatClick,
+                    selectedSeats
+                  );
+                })}
+              </div>
+
+              {/* Middle section (11 seats) */}
+              <div className="flex gap-2 mx-4">
+                {[...Array(11)].map((_, index) => {
+                  const seatId = `${row}${index + 6}`;
+                  return renderSeat(
+                    seatId,
+                    isDisabled(seatId),
+                    handleSeatClick,
+                    selectedSeats
+                  );
+                })}
+              </div>
+
+              {/* Right section (5 seats) */}
+              <div className="flex gap-2 ml-4">
+                {[...Array(5)].map((_, index) => {
+                  const seatId = `${row}${index + 17}`;
+                  return renderSeat(
+                    seatId,
+                    isDisabled(seatId),
+                    handleSeatClick,
+                    selectedSeats
+                  );
+                })}
+              </div>
+
+              {/* Row label right */}
+              <div className="text-center text-blue-400/60 text-sm font-medium w-6">
+                {row}
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Legend */}
-        <div className="flex justify-center space-x-8 mt-12 text-xs text-gray-400">
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-gray-800/30 rounded-sm mr-2"></div>
-            <span>Normal</span>
+        {/* Updated Legend styling */}
+        <div className="flex justify-center mt-12 space-x-8">
+          <div className="flex items-center space-x-2">
+            <div className="w-5 h-5 bg-gray-800/30 rounded-sm"></div>
+            <span className="text-gray-500 text-sm">Normal</span>
           </div>
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-gray-700/50 rounded-sm mr-2"></div>
-            <span>Comfort</span>
+          <div className="flex items-center space-x-2">
+            <div className="w-6 h-5 bg-gray-700/40 rounded-sm"></div>
+            <span className="text-gray-500 text-sm">Comfort</span>
           </div>
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-gray-600/50 rounded-sm mr-2"></div>
-            <span>Double Comfort</span>
+          <div className="flex items-center space-x-2">
+            <div className="w-7 h-5 bg-gray-600/40 rounded-sm"></div>
+            <span className="text-gray-500 text-sm">Double Comfort</span>
           </div>
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-gray-800/30 rounded-sm mr-2"></div>
-            <span>Available</span>
+          <div className="flex items-center space-x-2">
+            <div className="w-5 h-5 bg-gray-800/30 rounded-sm"></div>
+            <span className="text-gray-500 text-sm">Available</span>
           </div>
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-gray-800/30 rounded-sm mr-2 flex items-center justify-center text-xs">
-              ♿
+          <div className="flex items-center space-x-2">
+            <div className="w-5 h-5 bg-gray-800/20 rounded-sm flex items-center justify-center">
+              <span className="text-gray-500 text-xs">♿</span>
             </div>
-            <span>For Disabilities</span>
+            <span className="text-gray-500 text-sm">For Disabilities</span>
           </div>
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-[#91B1F1] shadow-[0_0_8px_rgba(147,197,253,0.5)] rounded-sm mr-2"></div>
-            <span>Selected</span>
+          <div className="flex items-center space-x-2">
+            <div className="w-5 h-5 bg-[#91B1F1] shadow-[0_0_8px_rgba(147,197,253,0.5)] rounded-sm"></div>
+            <span className="text-gray-500 text-sm">Selected</span>
           </div>
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-gray-900 rounded-sm mr-2"></div>
-            <span>Taken</span>
+          <div className="flex items-center space-x-2">
+            <div className="w-5 h-5 bg-gray-900 rounded-sm"></div>
+            <span className="text-gray-500 text-sm">Taken</span>
           </div>
         </div>
       </div>
@@ -328,11 +398,41 @@ const Home = () => {
     return selectedSeats.length * ticketPrice;
   };
 
+  // Helper function to check if seat is disabled
+  const isDisabled = (seatId) => {
+    return ["G7", "G8", "H7", "H8", "A8", "C12", "F12"].includes(seatId);
+  };
+
+  // Helper function to render individual seat
+  const renderSeat = (seatId, isDisabled, handleClick, selectedSeats) => (
+    <div
+      key={seatId}
+      className={`
+        w-5 h-5 rounded-sm cursor-pointer transition-all duration-300
+        ${isDisabled ? "bg-gray-800/20 cursor-not-allowed" : ""}
+        ${
+          selectedSeats.includes(seatId)
+            ? "bg-[#91B1F1] shadow-[0_0_8px_rgba(147,197,253,0.5)]"
+            : "bg-gray-800/30 hover:bg-gray-700/40"
+        }
+      `}
+      onClick={() => !isDisabled && handleClick(seatId)}
+    >
+      {isDisabled && (
+        <span className="flex items-center justify-center text-xs text-gray-500">
+          ♿
+        </span>
+      )}
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-[#1a1d24] text-gray-300 p-8"
-         style={{
-           background: 'radial-gradient(circle at top, #1a1d24 0%, #0f172a 100%)'
-         }}>
+    <div
+      className="min-h-screen bg-[#1a1d24] text-gray-300 p-8"
+      style={{
+        background: "radial-gradient(circle at top, #1a1d24 0%, #0f172a 100%)",
+      }}
+    >
       <TopNav />
       <div className="flex">
         <LeftSection />
