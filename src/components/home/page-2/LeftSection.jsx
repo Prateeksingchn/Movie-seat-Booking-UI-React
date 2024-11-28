@@ -1,12 +1,16 @@
 import React from 'react';
+import { useMovieTickets } from '../../../context/MovieTicketContext';
 
-const LeftSection = ({
-  selectedSeats,
-  selectedDate,
-  selectedTime,
-  selectedType,
-  ticketPrice
-}) => {
+const LeftSection = () => {
+  const {
+    selectedSeats,
+    ticketPrice,
+    selectedDate,
+    selectedTime,
+    selectedType,
+    totalPrice
+  } = useMovieTickets();
+
   return (
     <div className="w-[30%] mx-5">
       {/* Ticket info */}

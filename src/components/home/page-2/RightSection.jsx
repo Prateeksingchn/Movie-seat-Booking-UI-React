@@ -1,6 +1,9 @@
 import React from 'react';
+import { useMovieTickets } from '../../../context/MovieTicketContext';
 
-const RightSection = ({ selectedSeats, takenSeats, handleSeatClick, rows }) => {
+const RightSection = () => {
+  const { selectedSeats, takenSeats, handleSeatClick, rows } = useMovieTickets();
+
   const isDisabled = (seatId) => {
     return ["G7", "G8", "H7", "H8", "A8", "C12", "F12"].includes(seatId);
   };

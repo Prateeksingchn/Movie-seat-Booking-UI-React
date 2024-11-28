@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
+import { useMovieTickets } from '../../../context/MovieTicketContext';
 
 const Page3 = () => {
+  const {
+    selectedSeats,
+    ticketPrice,
+    selectedDate,
+    selectedTime,
+    selectedType,
+    totalPrice: movieTotalPrice
+  } = useMovieTickets();
+
   const [carModel, setCarModel] = useState("KIA Seltos");
   const [licensePlate, setLicensePlate] = useState("HUC 2967");
   const [parkingSpot, setParkingSpot] = useState("B 122");
   const [selectedLevel, setSelectedLevel] = useState(1);
-  const [movieTickets, setMovieTickets] = useState({ count: 2, price: 20, seats: ["D10", "D11"] });
   const [parkingDetails, setParkingDetails] = useState({ hours: 3, pricePerHour: 5 });
   const [isSpotDropdownOpen, setIsSpotDropdownOpen] = useState(false);
   const [isCarDropdownOpen, setIsCarDropdownOpen] = useState(false);
 
-  const totalMoviePrice = movieTickets.count * movieTickets.price;
   const totalParkingPrice = parkingDetails.hours * parkingDetails.pricePerHour;
-  const totalPrice = totalMoviePrice + totalParkingPrice;
+  const totalPrice = movieTotalPrice + totalParkingPrice;
 
   const parkingSpots = {
     1: {
@@ -353,29 +361,44 @@ const Page3 = () => {
         {/* Order Summary Header */}
         <div className="text-2xl text-white mb-6">Check Your Order</div>
 
-        {/* Movie Tickets Section */}
+        {/* Movie Tickets Section - Matching Page2 LeftSection style */}
         <div className="bg-[#1A1A1D] rounded-xl p-4 mb-4">
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-white">MOVIE TICKETS</span>
-            <span className="text-orange-400">🎫</span>
+          <div className="flex items-center mb-1">
+            <h3 className="text-[28px] font-normal text-white mb-1 font-[roboto]">
+              Select Your Seats
+            </h3>
           </div>
-          
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-gray-400">2 Seats</span>
-              <span className="text-white">D10, D11</span>
+          <div className="text-sm text-gray-500 mb-5 flex items-center">
+            <span>{selectedSeats.length} Seats</span>
+            {selectedSeats.map((seat) => (
+              <React.Fragment key={seat}>
+                <span className="mx-2">•</span>
+                <span>{seat}</span>
+              </React.Fragment>
+            ))}
+          </div>
+
+          {/* Movie Tickets Details */}
+          <div className="mb-4">
+            <div className="flex items-center mb-1">
+              <h3 className="text-[17px] text-white">MOVIE TICKETS</h3>
+              <span className="ml-auto text-orange-500 text-3xl">🎟️</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-gray-400">Date & Time</span>
-              <span className="text-white">12/07/2022, 20:30</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-400">Ticket (Double comfort)</span>
-              <span className="text-white">20$×2=40$</span>
-            </div>
-            <div className="flex justify-between pt-2 border-t border-gray-700">
-              <span className="text-gray-400">Total</span>
-              <span className="text-white">40$</span>
+            <div className="text-gray-500 space-y-1 text-[15px]">
+              <div className="flex justify-between">
+                <span>Date & Time</span>
+                <span className="text-white">{selectedDate}, {selectedTime}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Tickets (Double comfort)</span>
+                <span className="text-white">
+                  {ticketPrice}$ × {selectedSeats.length} = {movieTotalPrice}$
+                </span>
+              </div>
+              <div className="flex justify-between pt-2 border-t border-gray-700">
+                <span>Total</span>
+                <span className="text-white">{movieTotalPrice}$</span>
+              </div>
             </div>
           </div>
         </div>
