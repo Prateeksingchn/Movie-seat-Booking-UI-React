@@ -6,8 +6,8 @@ import RightSection from './RightSection';
 const Page2 = () => {
   // State declarations
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [selectedDate, setSelectedDate] = useState("12");
-  const [selectedTime, setSelectedTime] = useState("20:00 PM");
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedTime, setSelectedTime] = useState('');
   const [selectedType, setSelectedType] = useState("2D");
   const [selectedMall, setSelectedMall] = useState("OCEAN MALL");
   const [ticketPrice, setTicketPrice] = useState(20);
@@ -44,12 +44,19 @@ const Page2 = () => {
   const [currentDates, setCurrentDates] = useState(generateCurrentWeekDates());
 
   // Handler functions
-  const handleDateChange = (date) => setSelectedDate(date);
-  const handleTimeChange = (time) => setSelectedTime(time);
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const handleTimeChange = (time) => {
+    setSelectedTime(time);
+  };
+
   const handleTypeChange = (type) => {
     setSelectedType(type);
     setTicketPrice(types.find(t => t.id === type).price);
   };
+
   const handleMallChange = (mall) => setSelectedMall(mall);
   
   const handleSeatClick = (seatId) => {
@@ -127,6 +134,10 @@ const Page2 = () => {
           takenSeats={takenSeats}
           handleSeatClick={handleSeatClick}
           rows={rows}
+          selectedDate={selectedDate}
+          selectedTime={selectedTime}
+          selectedType={selectedType}
+          selectedMall={selectedMall}
         />
       </div>
     </div>

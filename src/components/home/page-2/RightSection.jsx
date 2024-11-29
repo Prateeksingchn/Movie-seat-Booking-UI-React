@@ -1,8 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useMovieTickets } from '../../../context/MovieTicketContext';
 
-const RightSection = () => {
-  const { selectedSeats, takenSeats, handleSeatClick, rows } = useMovieTickets();
+const RightSection = ({ selectedDate, selectedTime, selectedType, selectedMall }) => {
+  const { selectedSeats, takenSeats, handleSeatClick, rows, setTakenSeats } = useMovieTickets();
+
+  useEffect(() => {
+    const generateRandomTakenSeats = () => {
+      const randomSeats = [];
+      const totalSeats = rows.length * 21; // 21 seats per row
+      const numberOfTakenSeats = Math.floor(Math.random() * 20) + 10; // Random number between 10-30
+
+      while (randomSeats.length < numberOfTakenSeats) {
+        const randomRow = rows[Math.floor(Math.random() * rows.length)];
+        const randomSeatNumber = Math.floor(Math.random() * 21) + 1;
+        const seatId = `${randomRow}${randomSeatNumber}`;
+        
+        if (!randomSeats.includes(seatId)) {
+          randomSeats.push(seatId);
+        }
+      }
+      
+      return randomSeats;
+    };
+
+    // Set initial taken seats when date, time, type, or mall changes
+    setTakenSeats(generateRandomTakenSeats());
+  }, [selectedDate, selectedTime, selectedType, selectedMall, rows, setTakenSeats]);
 
   const isDisabled = (seatId) => {
     return ["G7", "G8", "H7", "H8", "A8", "C12", "F12"].includes(seatId);

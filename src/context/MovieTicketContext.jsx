@@ -4,7 +4,7 @@ const MovieTicketContext = createContext();
 
 export const MovieTicketProvider = ({ children }) => {
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [takenSeats] = useState(["E5", "E6", "E7", "E8", "E9", "F6", "F7", "F10", "G7", "G8", "H7", "H8"]);
+  const [takenSeats, setTakenSeats] = useState(["E5", "E6", "E7", "E8", "E9", "F6", "F7", "F10", "G7", "G8", "H7", "H8"]);
   const [ticketPrice] = useState(20);
   const [rows] = useState(["A", "B", "C", "D", "E", "F", "G", "H"]);
 
@@ -24,6 +24,7 @@ export const MovieTicketProvider = ({ children }) => {
         selectedSeats,
         setSelectedSeats,
         takenSeats,
+        setTakenSeats,
         ticketPrice,
         rows,
         handleSeatClick,
