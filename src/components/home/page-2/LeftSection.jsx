@@ -1,14 +1,12 @@
 import React from 'react';
 import { useMovieTickets } from '../../../context/MovieTicketContext';
 
-const LeftSection = () => {
+const LeftSection = ({ selectedDate, selectedTime }) => {
   const {
     selectedSeats,
     ticketPrice,
-    selectedDate,
-    selectedTime,
     selectedType,
-    totalPrice
+    selectedMall,
   } = useMovieTickets();
 
   return (
@@ -21,7 +19,7 @@ const LeftSection = () => {
         </h2>
         <div className="text-sm text-gray-500 mb-5 flex items-center">
           <span>{selectedSeats.length} Seats</span>
-          {selectedSeats.map((seat, index) => (
+          {selectedSeats.map((seat) => (
             <React.Fragment key={seat}>
               <span className="mx-2">•</span>
               <span>{seat}</span>
@@ -39,7 +37,7 @@ const LeftSection = () => {
             <div className="flex justify-between">
               <span>Date & Time</span>
               <span>
-                {selectedDate}/07/2023, {selectedTime}
+                {selectedDate}, {selectedTime}
               </span>
             </div>
             <div className="flex justify-between">
@@ -67,6 +65,10 @@ const LeftSection = () => {
           <div className="flex justify-between text-[15px]">
             <span className="text-gray-700">Type</span>
             <span className="text-gray-700">{selectedType}</span>
+          </div>
+          <div className="flex justify-between text-[15px]">
+            <span className="text-gray-700">Location</span>
+            <span className="text-gray-700">{selectedMall}</span>
           </div>
           <div className="flex justify-between text-[20px] font-medium border-t-2 border-zinc-400 pt-1">
             <span className="text-black">TOTAL PRICE</span>

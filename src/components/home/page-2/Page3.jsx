@@ -5,9 +5,10 @@ const Page3 = () => {
   const {
     selectedSeats,
     ticketPrice,
+    selectedType,
+    selectedMall,
     selectedDate,
     selectedTime,
-    selectedType,
     totalPrice: movieTotalPrice
   } = useMovieTickets();
 
@@ -356,12 +357,12 @@ const Page3 = () => {
         </div>
       </div>
 
-      {/* Right Section */}
-      <div className="w-[400px]">
+       {/* Right Section */}
+       <div className="w-[400px]">
         {/* Order Summary Header */}
         <div className="text-2xl text-white mb-6">Check Your Order</div>
 
-        {/* Movie Tickets Section - Matching Page2 LeftSection style */}
+        {/* Movie Tickets Section */}
         <div className="bg-[#1A1A1D] rounded-xl p-4 mb-4">
           <div className="flex items-center mb-1">
             <h3 className="text-[28px] font-normal text-white mb-1 font-[roboto]">
@@ -377,7 +378,7 @@ const Page3 = () => {
               </React.Fragment>
             ))}
           </div>
-
+          
           {/* Movie Tickets Details */}
           <div className="mb-4">
             <div className="flex items-center mb-1">
@@ -387,23 +388,25 @@ const Page3 = () => {
             <div className="text-gray-500 space-y-1 text-[15px]">
               <div className="flex justify-between">
                 <span>Date & Time</span>
-                <span className="text-white">{selectedDate}, {selectedTime}</span>
+                <span className="text-white">
+                  {selectedDate}, {selectedTime}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span>Tickets (Double comfort)</span>
                 <span className="text-white">
-                  {ticketPrice}$ × {selectedSeats.length} = {movieTotalPrice}$
+                  {ticketPrice}$ × {selectedSeats.length} = {ticketPrice * selectedSeats.length}$
                 </span>
               </div>
-              <div className="flex justify-between pt-2 border-t border-gray-700">
+              <div className="flex justify-between">
                 <span>Total</span>
-                <span className="text-white">{movieTotalPrice}$</span>
+                <span className="text-white">{ticketPrice * selectedSeats.length}$</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Parking Section */}
+       {/* Parking Section */}
         <div className="bg-[#1A1A1D] rounded-xl p-4 mb-6">
           <div className="flex justify-between items-center mb-4">
             <span className="text-white">PARKING</span>
@@ -413,11 +416,15 @@ const Page3 = () => {
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-400">1 Spot</span>
-              <span className="text-white">B 122</span>
+              <span className="text-white">{parkingSpot}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-400">Date</span>
-              <span className="text-white">12/07/2022</span>
+              <span className="text-white">{selectedDate}</span> {/* Display selected date */}
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-400">Time</span>
+              <span className="text-white">{selectedTime}</span> {/* Display selected time */}
             </div>
             <div className="flex justify-between">
               <span className="text-gray-400">Distance</span>
@@ -429,25 +436,25 @@ const Page3 = () => {
             </div>
             <div className="flex justify-between pt-2 border-t border-gray-700">
               <span className="text-gray-400">Total</span>
-              <span className="text-white">15$</span>
+              <span className="text-white">{totalParkingPrice}$</span> {/* Update total parking price */}
             </div>
           </div>
         </div>
 
-        {/* Total Price Section */}
-        <div className="bg-blue-400/20 rounded-xl p-4 mb-4">
+         {/* Total Price Section */}
+         <div className="bg-blue-400/20 rounded-xl p-4 mb-4">
           <div className="space-y-2">
             <div className="flex justify-between">
               <span>Movie Tickets</span>
-              <span>40$</span>
+              <span>{movieTotalPrice}$</span> {/* Update to show movie total price */}
             </div>
             <div className="flex justify-between">
               <span>Parking</span>
-              <span>15$</span>
+              <span>{totalParkingPrice}$</span> {/* Update to show parking total price */}
             </div>
             <div className="flex justify-between pt-2 border-t border-blue-400/20">
               <span className="font-medium">TOTAL PRICE</span>
-              <span>40$+15$= 55$</span>
+              <span>{movieTotalPrice + totalParkingPrice}$</span> {/* Update to show total price */}
             </div>
           </div>
         </div>
@@ -476,4 +483,4 @@ const Page3 = () => {
   );
 };
 
-export default Page3; 
+export default Page3;
