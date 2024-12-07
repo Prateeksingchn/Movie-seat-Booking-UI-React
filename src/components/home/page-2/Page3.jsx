@@ -12,7 +12,7 @@ const Page3 = () => {
     totalPrice: movieTotalPrice
   } = useMovieTickets();
 
-  const [carModel, setCarModel] = useState("KIA Seltos");
+  const [carModel, setCarModel] = useState("");
   const [licensePlate, setLicensePlate] = useState("HUC 2967");
   const [parkingSpot, setParkingSpot] = useState("B 122");
   const [selectedLevel, setSelectedLevel] = useState(1);
@@ -250,60 +250,86 @@ const Page3 = () => {
       {/* Left Section */}
       <div className="flex-1 flex flex-col gap-6">
         {/* Top Navigation Bar */}
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center bg-[#1A1A1D] rounded-xl p-4 shadow-lg">
           {/* Car Info Section */}
-          <div className="flex items-center bg-[#1A1A1D] rounded-xl p-4 w-[35%]">
+          <div className="flex items-center flex-1">
             <img 
               src="/path-to-orange-car.png" 
-              alt="KIA Seltos" 
-              className="w-12 h-12 object-contain"
+              alt="Selected Car" 
+              className="w-12 h-12 object-contain rounded-full border border-orange-500"
             />
             <div className="ml-4">
-              <h3 className="text-white">{carModel}</h3>
+              <h3 className="text-white font-semibold text-lg">{carModel || "Select Your Car"}</h3>
               <p className="text-sm text-gray-400">{licensePlate}</p>
-            </div>
-            <div className="ml-auto">
-              <div className="w-8 h-8 rounded-full bg-[#FF4D4D]/20 flex items-center justify-center">
-                <div className="w-2 h-2 rounded-full bg-[#FF4D4D]"></div>
-              </div>
             </div>
           </div>
 
-          {/* Dropdowns Section */}
-          <div className="flex gap-4 w-[25%]">
-            {/* Spot Dropdown */}
-            <div className="relative flex-1">
-              <button 
-                onClick={() => setIsSpotDropdownOpen(!isSpotDropdownOpen)}
-                className="w-full bg-[#1A1A1D] rounded-xl p-4 flex justify-between items-center"
-              >
-                <div>
-                  <p className="text-sm text-blue-400">Your Spot</p>
-                  <p className="text-white">{parkingSpot}</p>
-                </div>
-                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {/* Dropdown content */}
-            </div>
+          {/* Spot Dropdown */}
+          <div className="relative flex-1 mx-2">
+            <button 
+              onClick={() => setIsSpotDropdownOpen(!isSpotDropdownOpen)}
+              className="w-full bg-[#1A1A1D] rounded-xl p-4 flex justify-between items-center transition-transform transform hover:scale-105"
+            >
+              <div>
+                <p className="text-sm text-blue-400">Your Spot</p>
+                <p className="text-white">{parkingSpot || "Select a Spot"}</p>
+              </div>
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {/* Dropdown content */}
+          </div>
 
-            {/* Car Dropdown */}
-            <div className="relative flex-1">
-              <button 
-                onClick={() => setIsCarDropdownOpen(!isCarDropdownOpen)}
-                className="w-full bg-[#1A1A1D] rounded-xl p-4 flex justify-between items-center"
-              >
-                <div>
-                  <p className="text-sm text-blue-400">Your Car</p>
-                  <p className="text-white">{carModel}</p>
-                </div>
-                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {/* Dropdown content */}
-            </div>
+          {/* Car Dropdown */}
+          <div className="relative flex-1 mx-2">
+            <button 
+              onClick={() => setIsCarDropdownOpen(!isCarDropdownOpen)}
+              className="w-full bg-[#1A1A1D] rounded-xl p-4 flex justify-between items-center transition-transform transform hover:scale-105"
+            >
+              <div>
+                <p className="text-sm text-blue-400">Your Car</p>
+                <p className="text-white">{carModel || "Select a Car"}</p>
+              </div>
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {isCarDropdownOpen && (
+              <div className="absolute z-10 w-full bg-[#1A1A1D] rounded-xl mt-1 max-h-60 overflow-y-auto">
+                {[
+                  "", // Default empty option
+                  "KIA Seltos",
+                  "Toyota Camry",
+                  "Honda Accord",
+                  "Maruti Suzuki Swift",
+                  "Hyundai Creta",
+                  "Tata Nexon",
+                  "Mahindra XUV300",
+                  "Kia Sonet",
+                  "Toyota Fortuner",
+                  "Honda City",
+                  "Skoda Octavia",
+                  "Volkswagen Polo",
+                  "Nissan Magnite",
+                  "Renault Kiger",
+                  "MG Hector",
+                  "Tata Harrier",
+                  "Hyundai Venue",
+                  "Maruti Suzuki Baleno",
+                  "Ford EcoSport",
+                  "Mahindra Thar"
+                ].map((model) => (
+                  <button 
+                    key={model} 
+                    onClick={() => { setCarModel(model); setIsCarDropdownOpen(false); }}
+                    className="w-full text-left p-4 hover:bg-blue-500/10"
+                  >
+                    {model}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
